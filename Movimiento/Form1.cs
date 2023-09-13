@@ -12,63 +12,134 @@ namespace Movimiento
 {
     public partial class Form1 : Form
     {
-        bool ReturnLeft = false;
-        bool ReturnTop = false;
+        Label redSquare = new Label();
+        Label yellowSquare = new Label();
+        bool redSquareE = false;
+        bool yellowSquareE = false;
+        bool returnLeft = false;
+        bool returnTop = false;
+        bool returnRight = false;
+        bool returnBottom = false;
+
         public Form1()
         {
             InitializeComponent();
         }
 
-        private async void btIniciar_Click(object sender, EventArgs e)
+        private void btIniciar_Click(object sender, EventArgs e)
         {
-            Label figura = new Label();
-            figura.Text = "";
-            figura.BackColor = Color.Red;
-            figura.AutoSize = false;
-            figura.Width = 50;
-            figura.Height = 50;
-            figura.Top = 120;
-            figura.Left = 0;
-            Controls.Add(figura);
-
-            do
+            timerRed.Start();
+            timerYellow.Start();
+        }
+        private void btPausar_Click(object sender, EventArgs e)
+        {
+            timerRed.Stop();
+            timerYellow.Stop();
+            if (redSquare.BackColor == Color.Red)
             {
-                if (ReturnLeft == false & (figura.Left + figura.Width) < this.Width)
-                {
-                    figura.Left = figura.Left + 4;
-                }
-                else
-                {
-                    if (ReturnLeft == false)
-                    {
-                        ReturnLeft = true;
-                    }
-                    figura.Left = figura.Left - 4;
-                    if (figura.Left <= 0)
-                    {
-                        ReturnLeft = false;
-                    }
-                }
+                btIniciar.Text = "Reanudar";
+            }
+        }
 
-                if (ReturnTop == false & (figura.Top + figura.Height) < this.Height)
-                {
-                    figura.Top = figura.Top + 4;
-                }
-                else
-                {
-                    if (ReturnTop == false)
-                    {
-                        ReturnTop = true;
-                    }
-                    figura.Top = figura.Top - 4;
-                    if (figura.Top <= 0)
-                    {
-                        ReturnTop = false;
-                    }
-                }
-                await Task.Delay(10);
+        private void timerRed_Tick(object sender, EventArgs e)
+        {
 
-            } while (1 == 1);
+            if (redSquareE == false)
+            {
+                redSquare.Text = "";
+                redSquare.BackColor = Color.Red;
+                redSquare.AutoSize = false;
+                redSquare.Width = 50;
+                redSquare.Height = 50;
+                redSquare.Top = 120;
+                redSquare.Left = 0;
+                Controls.Add(redSquare);
+                redSquareE = true;
+            }
+
+            if (returnLeft == false & (redSquare.Left + redSquare.Width) < this.Width)
+            {
+                redSquare.Left = redSquare.Left + 4;
+            }
+            else
+            {
+                if (returnLeft == false)
+                {
+                    returnLeft = true;
+                }
+                redSquare.Left = redSquare.Left - 4;
+                if (redSquare.Left <= 0)
+                {
+                    returnLeft = false;
+                }
+            }
+
+            if (returnTop == false & (redSquare.Top + redSquare.Height) < this.Height)
+            {
+                redSquare.Top = redSquare.Top + 4;
+            }
+            else
+            {
+                if (returnTop == false)
+                {
+                    returnTop = true;
+                }
+                redSquare.Top = redSquare.Top - 4;
+                if (redSquare.Top <= 0)
+                {
+                    returnTop = false;
+                }
+            }
+        }
+
+        private void timerYellow_Tick(object sender, EventArgs e)
+        {
+            if (yellowSquareE == false)
+            {
+                yellowSquare.Text = "";
+               yellowSquare.BackColor = Color.Yellow;
+                yellowSquare.AutoSize = false;
+                yellowSquare.Width = 50;
+               yellowSquare.Height = 50;
+                yellowSquare.Top = 120;
+                yellowSquare.Left = (this.Width - 70);
+                Controls.Add(yellowSquare);
+                yellowSquareE = true;
+            }
+
+            if (returnRight == false & yellowSquare.Left >= 0)
+            {
+                yellowSquare.Left = yellowSquare.Left - 4;
+            }
+            else
+            {
+                if (returnRight == false)
+                {
+                    returnRight = true;
+                }
+                yellowSquare.Left = yellowSquare.Left + 4;
+                if ((yellowSquare.Left + yellowSquare.Width) >= this.Width)
+                {
+                    returnRight = false;
+                }
+            }
+
+            if (returnBottom == false & yellowSquare.Top >= 0)
+            {
+                yellowSquare.Top = yellowSquare.Top - 4;
+            }
+            else
+            {
+                if (returnBottom == false)
+                {
+                    returnBottom = true;
+                }
+                yellowSquare.Top = yellowSquare.Top + 4;
+                if ((yellowSquare.Top + yellowSquare.Height) >= this.Height)
+                {
+                    returnBottom = false;
+                }
+            }
         }
     }
 }
